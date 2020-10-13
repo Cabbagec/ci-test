@@ -1,3 +1,5 @@
+# Only build tags
+if: tag IS present
 sudo: required
 language: shell
 
@@ -5,7 +7,7 @@ script:
   - echo "CI TEST" > release_file
 
 after_script:
-  - export RELEASE_FILE="release_file"
+  - export RELEASE_FILE="release-$(git describe --tag --abbrev=0)"
 
 deploy:
   provider: releases
