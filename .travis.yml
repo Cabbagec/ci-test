@@ -1,0 +1,18 @@
+sudo: required
+language: shell
+
+script:
+  - echo "CI TEST" > release_file
+
+after_script:
+  - export RELEASE_FILE="release_file"
+
+deploy:
+  provider: releases
+  api_key: $DEPLOY_TOKEN
+  file_glob: true
+  file:
+    - $RELEASE_FILE
+  skip_cleanup: true
+  on:
+    tags: true
