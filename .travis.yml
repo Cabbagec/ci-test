@@ -6,15 +6,19 @@ language: shell
 script:
   - echo "CI TEST" > release_file
 
-after_script:
-  - export RELEASE_FILE="release-$(git describe --tag --abbrev=0)"
+# after_script:
+#   - export TAG="release-$(git describe --tag --abbrev=0)"
+#   - mv release_file $TAG
 
+before_deploy:
+  - export TAG="release-$(git describe --tag --abbrev=0)"
+  - mv release_file $TAG
 deploy:
   provider: releases
   api_key: $DEPLOY_TOKEN
   file_glob: true
   file:
-    - $RELEASE_FILE
+    - $TAG
   skip_cleanup: true
   on:
     tags: true
